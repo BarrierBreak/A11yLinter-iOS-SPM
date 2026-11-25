@@ -19,7 +19,6 @@ struct A11yInspectXCodeLinterPlugin: BuildToolPlugin {
 
         var arguments = ["lint", "--output-format", "xcode", "--output-directory", outputDirectory.path, "--fail-on-error"]
         var inputFiles = sourceTarget.sourceFiles(withSuffix: "swift").map(\.url)
-        inputFiles += licenseInputFiles(in: context.package.directoryURL)
 
         if let plistURL = findInfoPlist(in: context.package.directoryURL) {
             arguments += ["--plist", plistURL.path]
@@ -37,26 +36,10 @@ struct A11yInspectXCodeLinterPlugin: BuildToolPlugin {
                 displayName: "Running A11yInspect XCode Linter on \(target.name)",
                 executable: tool.url,
                 arguments: arguments,
-                environment: licenseEnvironment(),
                 inputFiles: inputFiles,
                 outputFiles: [reportFile]
             )
         ]
-    }
-
-    /// Forwards the API key env var (e.g. set in CI) to the sandboxed runner.
-    fileprivate func licenseEnvironment() -> [String: String] {
-        let name = "A11YLINT_LICENSE_KEY"
-        guard let value = ProcessInfo.processInfo.environment[name] else { return [:] }
-        return [name: value]
-    }
-
-    /// `.a11ylint.json` and the saved activation, so the lint reruns after the
-    /// key changes or the license is activated.
-    fileprivate func licenseInputFiles(in directory: URL) -> [URL] {
-        [".a11ylint.json", ".a11ylint-activation.json"]
-            .map { directory.appending(path: $0) }
-            .filter { FileManager.default.fileExists(atPath: $0.path) }
     }
 
     private func findInfoPlist(in directory: URL) -> URL? {
@@ -113,7 +96,6 @@ extension A11yInspectXCodeLinterPlugin: XcodeBuildToolPlugin {
 
         var arguments = ["lint", "--output-format", "xcode", "--output-directory", outputDirectory.path, "--fail-on-error"]
         var inputFiles = target.inputFiles.filter { $0.url.pathExtension == "swift" }.map(\.url)
-        inputFiles += licenseInputFiles(in: context.xcodeProject.directoryURL)
 
         if let plistURL = findInfoPlist(in: context.xcodeProject.directoryURL) {
             arguments += ["--plist", plistURL.path]
@@ -131,7 +113,6 @@ extension A11yInspectXCodeLinterPlugin: XcodeBuildToolPlugin {
                 displayName: "Running A11yInspect XCode Linter on \(target.displayName)",
                 executable: tool.url,
                 arguments: arguments,
-                environment: licenseEnvironment(),
                 inputFiles: inputFiles,
                 outputFiles: [reportFile]
             )
