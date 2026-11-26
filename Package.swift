@@ -20,8 +20,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "A11yInspectXCodeLinterRunnerBinary",
-            url: "https://github.com/BarrierBreak/A11yLinter-iOS-SPM/releases/download/1.0.2/A11yInspectXCodeLinterRunner.artifactbundle.zip",
-            checksum: "c3b66a698706f5ff13536cc7eaac306c9c0cbabfe49d73fa85474f3819e2c9cf"
+            url: "https://github.com/BarrierBreak/A11yLinter-iOS-SPM/releases/download/1.0.3/A11yInspectXCodeLinterRunner.artifactbundle.zip",
+            checksum: "688aea2edea67fcf8efd4129e756103d134d5840c08501eed0965a72a77512bb"
         ),
         .plugin(
             name: "A11yInspectXCodeLinterPlugin",

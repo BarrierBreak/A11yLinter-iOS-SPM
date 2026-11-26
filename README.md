@@ -8,14 +8,14 @@ In Xcode: **File > Add Package Dependencies…** and enter:
 
     https://github.com/BarrierBreak/A11yLinter-iOS-SPM
 
-Pick version `1.0.2` or later, then add **A11yInspectXCodeLinterPlugin** under
+Pick version `1.0.3` or later, then add **A11yInspectXCodeLinterPlugin** under
 your app target's **Build Phases > Run Build Tool Plug-ins**.
 
 For Swift packages:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/BarrierBreak/A11yLinter-iOS-SPM", from: "1.0.2")
+    .package(url: "https://github.com/BarrierBreak/A11yLinter-iOS-SPM", from: "1.0.3")
 ],
 targets: [
     .target(
